@@ -5,29 +5,29 @@ import { NgIf, NgFor } from '@angular/common';
 type Card = {
   id: number;
   key: string;
-  emoji: string;
+  image: string;
   revealed: boolean;
   matched: boolean;
 }
 
 @Component({
-    selector: 'app-home',
-    templateUrl: 'home.page.html',
-    styleUrls: ['home.page.scss'],
-    imports: [
-        IonicModule,
-        NgIf,
-        NgFor,
-    ],
+  selector: 'app-home',
+  templateUrl: 'home.page.html',
+  styleUrls: ['home.page.scss'],
+  imports: [
+    IonicModule,
+    NgIf,
+    NgFor,
+  ],
 })
 export class HomePage {
 
   pairs = 8;
-  emojis = [
-    '🍎', '🍊', '🍌', '🍉',
-    '🍇', '🍓', '🍍', '🥭',
-    '🥝', '🍒', '🍑', '🍋',
-    '🥥', '🥑', '🍐', '🫐'
+  image = [
+    'assets/icon/1.png', 'assets/icon/2.webp', 'assets/icon/3.png', 'assets/icon/4.jpg',
+    'assets/icon/5.png', 'assets/icon/6.webp', 'assets/icon/7.svg', 'assets/icon/8.png',
+    'assets/icon/9.png', 'assets/icon/10.webp', 'assets/icon/11.png', 'assets/icon/12.png',
+    'assets/icon/13.jpg', 'assets/icon/14.png', 'assets/icon/15.webp', 'assets/icon/16.jpg'
   ]
 
   cards: Card[] = [];
@@ -49,11 +49,11 @@ export class HomePage {
     this.firstPick = null;
     this.secondPick = null;
     this.boardLocked = false;
-    const selected: string[] = this.emojis.slice(0, this.pairs);
+    const selected: string[] = this.image.slice(0, this.pairs);
 
     const deck: Card[] = selected.flatMap<Card>((e: string, i: number) => ([
-      { id: i * 2, key: 'k' + i, emoji: e, revealed: false, matched: false },
-      { id: i * 2 + 1, key: 'k' + i, emoji: e, revealed: false, matched: false }
+      { id: i * 2, key: 'k' + i, image: e, revealed: false, matched: false },
+      { id: i * 2 + 1, key: 'k' + i, image: e, revealed: false, matched: false }
     ]));
 
     for (let i = deck.length - 1; i > 0; i--) {

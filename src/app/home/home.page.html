@@ -22,14 +22,13 @@
   <ion-grid class="board">
     <ion-row>
       <ion-col size="3" size-md="2" size-lg="2" *ngFor="let c of cards">
-        <button class="card"
-                [class.revealed]="c.revealed || c.matched"
-                [class.matched]="c.matched"
-                [disabled]="boardLocked || c.matched"
-                (click)="onCardClick(c)">
- 
+        <button class="card" [class.revealed]="c.revealed || c.matched" [class.matched]="c.matched"
+          [disabled]="boardLocked || c.matched" (click)="onCardClick(c)">
+
           <div class="face back">?</div>
-          <div class="face front">{{ c.emoji }}</div>
+          <div class="face front">
+            <img [src]="c.image" alt="card" />
+          </div>
         </button>
       </ion-col>
     </ion-row>
