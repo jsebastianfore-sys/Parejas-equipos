@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { NgIf, NgFor } from '@angular/common';
+import { StorageService } from '../service/storage';
 
 type Card = {
   id: number;
@@ -36,10 +37,13 @@ export class HomePage {
   boardLocked = false;
   attempts: number = 0;
   matches: number = 0;
+  bestAttemps: number = 0;
 
-  constructor() { }
+  constructor(private storageService: StorageService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.storageService.init();
+    this.bestAttemps = await this.storageService.getBetsAttempts();
     this.newGame();
   }
 
@@ -90,6 +94,10 @@ export class HomePage {
         this.secondPick.matched = true;
         this.matches++;
         this.resetPick();
+
+        if (this.finished) {
+          this.handleGameWin();
+        }
       } else {
 
         setTimeout(() => {
@@ -106,6 +114,19 @@ export class HomePage {
     this.secondPick = null;
     this.boardLocked = false;
   }
+
+  async handleGameWin() {
+    const isRecord = await this.storageService.saveBestAttemptsIfRecord(this.attempts);
+    if (isRecord) {
+      this.bestAttemps = this.attempts;
+    }
+    await this.storageService.saveHistory({
+      fecha: new Date().toISOString(),
+      attempts: this.attempts,
+      win: true
+    });
+  }
+
   get finished() {
     return this.matches === this.pairs;
   }
